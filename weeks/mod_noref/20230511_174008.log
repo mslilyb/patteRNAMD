@@ -1,0 +1,76 @@
+2023-05-11 17:40 - INFO - cli : 40 - Summarizing job ... 
+
+       Input files:
+              probing: ./datafiles/RMPS2.shape
+              fasta: ./datafiles/fasta.fa
+              model: /home/ashtoreth/Code/shuffle/AviranLab/weeksbaseline/noref/trained_model.json
+
+       Configuration parameters:
+              log: False
+              training: False
+              scoring: True
+              k: auto
+              DOM: True
+              hairpins: True
+              motif: ({4,15}.{3,10}){4,15}
+              posteriors: True
+              HDSL: True
+              SPP: True
+
+       Using 2 parallel processes
+
+2023-05-11 17:40 - DEBUG - cli : 41 - Summarizing configuration:
+=========================================================
+Running patteRNA with the following parameters:
+=========================================================
+Input files:
+	probing: ./datafiles/RMPS2.shape
+	fasta: ./datafiles/fasta.fa
+	model: /home/ashtoreth/Code/shuffle/AviranLab/weeksbaseline/noref/trained_model.json
+
+Configuration parameters:
+	output: weeks/mod_noref
+	verbose: True
+	log: False
+	no_vienna: True
+	GMM: False
+	k: -1
+	KL_div: 0.001
+	epsilon: 0.01
+	maxiter: 250
+	n_tasks: 2
+	motif: ({4,15}.{3,10}){4,15}
+	path: None
+	hairpins: True
+	posteriors: True
+	viterbi: False
+	HDSL: True
+	SPP: True
+	nan: False
+	print_nan: False
+	no_prompt: False
+	min_cscores: 1000
+	no_cscores: False
+	batch_size: 100
+	context: 40
+	training: False
+	scoring: True
+	reference: False
+	hdsl_params: (1.2, 0.5)
+=========================================================
+2023-05-11 17:40 - INFO - cli : 50 - Loading input data
+2023-05-11 17:40 - INFO - cli : 66 -  ... done in 00:00:00
+2023-05-11 17:40 - INFO - cli : 131 - Using trained DOM-HMM model at /home/ashtoreth/Code/shuffle/AviranLab/weeksbaseline/noref/trained_model.json
+2023-05-11 17:40 - INFO - cli : 137 - Initiating scoring phase
+2023-05-11 17:40 - INFO - cli : 140 - Scoring set summary: 
+       Passed QC                  1
+       Used transcripts           1
+       # Data points              704
+       # Motifs                   96
+2023-05-11 17:40 - INFO - ScoringManager : 77 - Sampling null sites for c-score normalization
+2023-05-11 17:40 - INFO - ScoringManager : 112 -  ... done in 00:00:02
+2023-05-11 17:40 - INFO - ScoringManager : 124 - Executing scoring
+2023-05-11 17:40 - INFO - ScoringManager : 176 -  ... done in 00:00:00
+2023-05-11 17:40 - INFO - cli : 153 - Scoring phase done in 00:00:03
+2023-05-11 17:40 - INFO - cli : 155 - Process done in 00:00:03
+2023-05-11 17:40 - INFO - cli : 156 - Output written to  -> weeks/mod_noref
