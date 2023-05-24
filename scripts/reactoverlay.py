@@ -19,19 +19,21 @@ def plothist(his, bin, tit, col):
 	ax1.set_title(f'{tit}')
 	ax1.set_xlabel('Reactivity')
 	ax1.set_ylabel('Count')
-	ax1.set_ylim(0,50)
 	plt.grid()
 	plt.tight_layout()
 	plt.savefig(f'{tit}.png')
+	ax1.set_ylim(0,50)
+	plt.savefig(f'{tit}_zoom.png')
 	plt.close()
 
-def plotfreqs(re, pr, se):
+def plotfreqs(re, pr, se, bi, dump = False):
 	rcounts = {}
 	pcounts = {}
 	rnanless = []
 	pnanless = []
 	rc = 0
 	pc = 0
+
 
 	for r, p, s in zip(re, pr, se):
 		if s not in rcounts:
@@ -45,11 +47,16 @@ def plotfreqs(re, pr, se):
 			pcounts[s].append(p)
 			pnanless.append(p)
 
-	rhist, rbins = np.histogram(rnanless, bins = 15, range = [0, 3])
-	phist, pbins = np.histogram(pnanless, bins = 15, range = [0, 3])
+	phist, pbins = np.histogram(pnanless, bins = bi, range = [0, 3])
+	print("Histogram for file 1:", sys.argv[1])
+	print("Values:", phist)
+	print("Edges:", pbins)
+	rhist, rbins = np.histogram(rnanless, bins = bi, range = [0, 3])
+	print("Histogram for file 2:", sys.argv[2])
+	print("Values:", rhist)
+	print("Edges:", rbins)
 
-	for i, j in zip(sorted(rcounts['U']), sorted(pcounts['U'])):
-		print(i, j)
+
 
 	plot, ax1 = plt.subplots()
 	bars1 = plt.bar(rbins[:-1], rhist, width = 0.2, color = 'red')
@@ -75,18 +82,27 @@ def plotfreqs(re, pr, se):
 	plt.savefig('pseudoUdistrozoom_bigbin.png')
 	plt.close()
 
-	for s in rcounts:
-		shist, sbins, = np.histogram(rcounts[s], bins = 15 ,range = [0,3])
-		plothist(shist, sbins, f'Distribution_of_Reactivities_for_{s}_in_U_data_bigbin', 'red')
+
 
 	for s in pcounts:
-		shist, sbins, = np.histogram(rcounts[s], bins = 15 ,range = [0,3])
+		shist, sbins, = np.histogram(pcounts[s], bins = 15 ,range = [0,3])
+		print(f'Histogram for {s} in {sys.argv[1]}')
+		print("Values:", shist)
+		print("Edges:", sbins)
 		plothist(shist, sbins, f'Distribution_of_Reactivities_for_{s}_in_pseudo-U_data_bigbin', 'blue')
+
+	for s in rcounts:
+		shist, sbins, = np.histogram(rcounts[s], bins = 15 ,range = [0,3])
+		print(f'Histogram for {s} in {sys.argv[2]}')
+		print("Values:", shist)
+		print("Edges:", sbins)
+		plothist(shist, sbins, f'Distribution_of_Reactivities_for_{s}_in_U_data_bigbin', 'red')
 
 def plot_seqs(re, pr, se):
 	plot, axs = plt.subplots()
-	pl1 = axs.plot(re, 'r-', label = "U")
-	pl2 = axs.plot(pr, 'b-', label = "pseudo-U")
+	leng = [i for i in range(len(se) - 1)]
+	pl1 = axs.plot(leng, re, 'r-', label = "U")
+	pl2 = axs.plot(leng, pr, 'b-', label = "pseudo-U")
 	patch1 = Patch(facecolor ='red', label = "Missing U Data")
 	patch2 = Patch(facecolor = 'blue', label = "Missing pseudo-U Data")
 
@@ -130,9 +146,9 @@ def get_filepointer(filename):
 	"""
 
 	fp = None
-	if   filename.endswith('.gz'): fp = gzip.open(filename, 'rt')
-	elif filename == '-':          fp = sys.stdin
-	else:                          fp = open(filename)
+	if   filenadumpme.endswith('.gz'): fp = gzip.open(filename, 'rt')
+	elif filename == '-':              fp = sys.stdin
+	else:                              fp = open(filename)
 	return fp
 
 def read_fasta(filename):
@@ -169,7 +185,7 @@ def read_fasta(filename):
 pseudoreacts = sys.argv[1]
 regreacts = sys.argv[2]
 seqfile = sys.argv[3]
-
+bins = sys.argv[4]
 
 pfp = open(pseudoreacts)
 rfp = open(regreacts)
@@ -190,7 +206,7 @@ for line2 in rfp:
 for line3 in sfp:
 	if line3.startswith('>'):
 		continue
-	seqs.extend(line3.strip().split(' '))
+	seqs.extend(list(line3))
 
 for i in range(len(preacts)):
 	preacts[i] = float(preacts[i])
@@ -198,11 +214,13 @@ for i in range(len(preacts)):
 for j in range(len(reacts)):
 	reacts[j] = float(reacts[j])
 
-print(len(reacts), len(seqs), len(preacts))
 
 
-if sys.argv[4].find('r') != -1:
+if sys.argv[5].find('r') != -1:
 	plot_seqs(reacts, preacts, seqs)
 
-if sys.argv[4].find('f') != -1:
+if sys.argv[5].find('f') != -1:
 	plotfreqs(reacts, preacts, seqs)
+
+if sys.argv[5].find('d') != -1:
+	plotfreqs(reacts, preacts, seqs, int(sys.argv[6]), dump = True)

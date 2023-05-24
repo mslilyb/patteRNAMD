@@ -1,0 +1,55 @@
+2023-05-12 07:25 - INFO - cli : 40 - Summarizing job ... 
+
+       Input files:
+              probing: ./datafiles/RMPS2.shape
+              fasta: ./datafiles/fasta.fa
+
+       Configuration parameters:
+              log: False
+              training: True
+              scoring: True
+              k: auto
+              DOM: True
+              motif: ({4,7}.{3,15}({0,4}.{0,4}){0,4}.{0,4}){4,7}
+
+       Using 2 parallel processes
+
+2023-05-12 07:25 - DEBUG - cli : 41 - Summarizing configuration:
+=========================================================
+Running patteRNA with the following parameters:
+=========================================================
+Input files:
+	probing: ./datafiles/RMPS2.shape
+	fasta: ./datafiles/fasta.fa
+
+Configuration parameters:
+	output: testout
+	verbose: True
+	log: False
+	no_vienna: True
+	GMM: False
+	k: -1
+	KL_div: 0.001
+	epsilon: 0.01
+	maxiter: 250
+	n_tasks: 2
+	motif: ({4,7}.{3,15}({0,4}.{0,4}){0,4}.{0,4}){4,7}
+	path: None
+	hairpins: False
+	posteriors: False
+	viterbi: False
+	HDSL: False
+	SPP: False
+	nan: False
+	print_nan: False
+	no_prompt: False
+	min_cscores: 1000
+	no_cscores: False
+	batch_size: 100
+	context: 40
+	training: True
+	scoring: True
+	reference: False
+	hdsl_params: (1.2, 0.5)
+=========================================================
+2023-05-12 07:25 - INFO - cli : 50 - Loading input data
