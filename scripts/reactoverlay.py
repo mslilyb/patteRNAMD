@@ -220,7 +220,7 @@ if sys.argv[5].find('r') != -1:
 	plot_seqs(reacts, preacts, seqs)
 
 if sys.argv[5].find('f') != -1:
-	plotfreqs(reacts, preacts, seqs)
+	plotfreqs(reacts, preacts, seqs, int(bins))
 
 if sys.argv[5].find('d') != -1:
 	plotfreqs(reacts, preacts, seqs, int(sys.argv[6]), dump = True)
